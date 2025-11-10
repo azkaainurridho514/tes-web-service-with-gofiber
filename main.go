@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 	"os"
 
@@ -10,18 +11,35 @@ import (
 func main() {
 	app := fiber.New()
 
+	// Ambil URL dari Railway
+	dbURL := os.Getenv("DATABASE_URL")
+	if dbURL == "" {
+		log.Fatal("DATABASE_URL tidak ditemukan")
+	}
+
+	// Connect ke Neon
+	db, err := sql.Open("postgres", dbURL)
+	if err != nil {
+		log.Fatal("Gagal open DB:", err)
+	}
+
+	if err := db.Ping(); err != nil {
+		log.Fatal("Gagal connect ke DB:", err)
+	}
+
+	log.Println("✅ Database connected!")
+
+	// API test
 	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello from Railway + Fiber!")
+		return c.SendString("Hello! DB connected.")
 	})
 
+	// PORT Railway
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "3000"
 	}
 
 	log.Println("Server running on port:", port)
-
-	if err := app.Listen(":" + port); err != nil {
-		log.Fatal(err)
-	}
+	log.Fatal(app.Listen(":" + port))
 }
