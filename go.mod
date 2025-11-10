@@ -1,6 +1,8 @@
-module github.com/azkaainurridho514/employee_presence
+module github.com/azkaainurridho514/tes-web-service
 
-go 1.20
+go 1.23.0
+
+toolchain go1.24.1
 
 require (
 	github.com/gofiber/fiber/v2 v2.52.5
@@ -18,5 +20,5 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.51.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
-	golang.org/x/sys v0.15.0 // indirect
+	golang.org/x/sys v0.31.0 // indirect
 )
